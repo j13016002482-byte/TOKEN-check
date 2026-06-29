@@ -1,0 +1,11 @@
+--- a/astrbot/core/agent/runners/tool_loop_agent_runner.py
++++ b/astrbot/core/agent/runners/tool_loop_agent_runner.py
+@@ -197,6 +197,8 @@
+         self.run_context.messages.append(Message(role="assistant", content=parts))
+ 
+         try:
++            # Store stats for plugin access (TTFT, provider_id)
++            self.run_context.context.event.set_extra("agent_stats", self.stats.to_dict())
+             await self.agent_hooks.on_agent_done(self.run_context, llm_resp)
+         except Exception as e:
+             logger.error(f"Error in on_agent_done hook: {e}", exc_info=True)
